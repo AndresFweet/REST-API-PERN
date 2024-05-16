@@ -1,5 +1,7 @@
 import express from "express";
+import morgan from "morgan";
 //inicializacion Express
 const app = express()
-app.listen(4000)
-console.log('Server on port', 4000);
+//modulo para visualizar las peticiones al backend
+app.use(morgan('dev'))
+export default app
