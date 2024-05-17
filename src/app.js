@@ -1,7 +1,21 @@
 import express from "express";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
+/**SECCION PARA IMPORTAR LOS ARCHIVOS ROUTES */
+import securityRoutes from "./routes/security/auth.routes.js"
+//rutas para el modulo de usuarios
+import userRoutes from "./routes/security/users.routes.js"
+/**END SECCION PARA IMPORTAR ARCHIVOS ROUTES */
 //inicializacion Express
 const app = express()
 //modulo para visualizar las peticiones al backend
 app.use(morgan('dev'))
+//mdulo para trabajar las peticiones en formato JSON
+app.use(express.json())
+//modulo para almacenar las cookies
+app.use(cookieParser())
+//seccion para utilizar las rutas importadas
+app.use('/api', securityRoutes)
+app.use('/api', userRoutes)
+
 export default app
