@@ -3,7 +3,7 @@ import { Router } from "express";
 //importando los controladores para las peticiones
 import {
   signin,
-  getProfileRequest,
+  verifyToken,
   logOutRequest,
 } from "../../controllers/security/auth.controller..js";
 //importar modulo encargado de validar token
@@ -15,7 +15,7 @@ const router = Router();
 
 router.post("/security/signin", signin);
 
-router.get("/security/profile", authRequired, getProfileRequest);
+router.get("/security/verifyToken", verifyToken);
 
 router.post("/security/logout", authRequired, logOutRequest);
 

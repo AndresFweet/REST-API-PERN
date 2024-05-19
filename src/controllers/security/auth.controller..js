@@ -4,6 +4,10 @@ import { pool } from "../../db.js";
 import bcrypt from "bcryptjs";
 //modulo para manejar los token(COOKIES)
 import { createAccesToken } from "../../libs/jwt.js";
+//jsonwebtoken
+import jwt from "jsonwebtoken";
+//secret
+import { TOKEN_SECRET } from "../../config.js";
 //controladores para las peticiones del modulo (security)
 
 export const signin = async (req, res) => {
@@ -17,9 +21,8 @@ export const signin = async (req, res) => {
       [9, email]
     );
     //validar resultados
-
-    if (resultFound.rows.lenght <= 0) {
-      return res.status(400).json("Error de credenciales...");
+    if (resultFound.rows.length <= 0) {
+      return res.status(400).json(["Error de credenciales..."]);
     }
     //comparar pass y passHash
     const isMatch = await bcrypt.compare(
@@ -27,13 +30,13 @@ export const signin = async (req, res) => {
       resultFound.rows[0].qry_usuarios.password
     );
     if (!isMatch) {
-      return res.status(400).json("Error de credenciales...");
+      return res.status(400).json(["Error de credenciales..."]);
     }
-
     //creacion token
     const token = await createAccesToken({
       id: resultFound.rows[0].qry_usuarios.id,
     });
+
     //establecer cookie
     res.cookie("token", token);
     res.json({
@@ -56,23 +59,29 @@ export const logOutRequest = async (req, res) => {
   res.sendStatus(200);
 };
 
-export const getProfileRequest = async (req, res) => {
-  const userFound = await pool.query(
-    `SELECT * FROM settings.qry_usuarios(
-    operacion => $1,
-    id_usuario => $2)`,
-    [5, req.user.id]
-  );
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+  if (!token) return res.status(401).json(["Unauthorized"]);
 
-  if (!userFound) return res.status(401).json("User not found");
+  jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+    if (err) return res.status(401).json(["Unauthorized"]);
 
-  return res.json({
-    id: userFound.rows[0].qry_usuarios.id,
+    //ubicar usuario y su data
+    const userFound = await pool.query(
+      `SELECT * FROM settings.qry_usuarios(
+      operacion => $1,
+      id_usuario => $2)`,
+      [5, user.id]
+    );
+    if (!userFound) return res.status(401).json(["Unauthorized"]);
+
+    return res.json({
+      id: userFound.rows[0].qry_usuarios.id,
       idRol: userFound.rows[0].qry_usuarios.id_rol,
       idEmpresa: userFound.rows[0].qry_usuarios.id_empresa,
       email: userFound.rows[0].qry_usuarios.email,
       firstName: userFound.rows[0].qry_usuarios.firstname,
-      firstLastName: userFound.rows[0].qry_usuarios.firstlastname
+      firstLastName: userFound.rows[0].qry_usuarios.firstlastname,
+    });
   });
-
 };
