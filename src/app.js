@@ -6,6 +6,8 @@ import cors from 'cors'
 import securityRoutes from "./routes/security/auth.routes.js"
 //rutas para el modulo de usuarios
 import userRoutes from "./routes/security/users.routes.js"
+//permisos por rol de usuario
+import accessRoutes from "./routes/security/seccion.routes.js"
 /**END SECCION PARA IMPORTAR ARCHIVOS ROUTES */
 //inicializacion Express
 const app = express()
@@ -23,5 +25,6 @@ app.use(cookieParser())
 //seccion para utilizar las rutas importadas
 app.use('/api', securityRoutes)
 app.use('/api', userRoutes)
+app.use('/api', accessRoutes)
 
 export default app
