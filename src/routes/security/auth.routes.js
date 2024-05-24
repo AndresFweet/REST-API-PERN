@@ -8,12 +8,16 @@ import {
 } from "../../controllers/security/auth.controller..js";
 //importar modulo encargado de validar token
 import { authRequired } from "../../middlewares/validateToken.js";
+//importar modulo encargado de validar el schema
+import { validateSchema } from '../../middlewares/validateSchema.js'
+//importar schemas
+import { signinSchema } from '../../validator/security/auth.schema.js' 
 //ejecucion del enrutador para las peticiones
 const router = Router();
 
 /**RUTAS PARA LA SECCION SEGURIDAD(LOGIN Y TOKEN) */
 
-router.post("/security/signin", signin);
+router.post("/security/signin", validateSchema(signinSchema), signin);
 
 router.get("/security/verifyToken", verifyToken);
 

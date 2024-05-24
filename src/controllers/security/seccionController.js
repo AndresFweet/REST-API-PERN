@@ -15,6 +15,8 @@ export const getSeccionRequest = async (req, res) => {
         .status(400)
         .json("No se encontraron permisos para el usuaio...");
     }
+
+
     return res.status(200).json(resultsFound.rows);
   } catch (error) {
     return res.status(500).json(error.message);
