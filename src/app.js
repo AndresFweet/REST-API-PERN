@@ -10,6 +10,8 @@ import userRoutes from "./routes/security/users.routes.js"
 import accessRoutes from "./routes/security/seccion.routes.js"
 //rutas para el modulo de empresas
 import companyRoutes from "./routes/config/empresa.routes.js"
+//rutas para el modulo de tiendas
+import storeRequest from './routes/config/store.routes.js'
 /**END SECCION PARA IMPORTAR ARCHIVOS ROUTES */
 //inicializacion Express
 const app = express()
@@ -29,5 +31,6 @@ app.use('/api', securityRoutes)
 app.use('/api', userRoutes)
 app.use('/api', accessRoutes)
 app.use('/api', companyRoutes)
+app.use('/api', storeRequest)
 
 export default app

@@ -137,9 +137,6 @@ export const updateCompanyRequest = async (req, res) => {
       idTipoEmpresa,
       estado,
       fechaComercial,
-      idTipoDocumento,
-      documento,
-      nit,
       idTipoLicencia,
     } = req.body;
     const operacion = 5;
@@ -187,7 +184,7 @@ export const updateCompanyRequest = async (req, res) => {
         fechaComercial,
         id_usuario,
         idTipoLicencia,
-        id_empresa
+        req.params.id
       ]
     );
   

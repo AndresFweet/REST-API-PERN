@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const signinSchema = z.object({
     email: z
     .string({
-      required_error: "Email es necesario",
+      required_error: "Email is required",
     })
     .email({
       message: "Email is not valid",
