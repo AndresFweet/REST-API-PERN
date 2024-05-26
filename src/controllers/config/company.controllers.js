@@ -110,7 +110,7 @@ export const getCompanyRequest = async (req, res) => {
     );
 
     if (resultsFound.rows.length >= 0) {
-      res.status(404).json("No se encontraron registros...");
+      res.status(404).json("Registro no encontrado...");
     }
 
     res.status(200).json(resultsFound.rows);

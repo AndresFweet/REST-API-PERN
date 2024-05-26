@@ -94,7 +94,7 @@ export const getStoreRequest = async (req, res) => {
     );
     //validar resultados
     if (resultsFund.rows.length <= 0)
-      res.status(404).json("No se econtro el registro");
+      res.status(404).json("Registro no encontrado...");
 
     return res.status(200).json(resultsFund.rows);
   } catch (error) {
