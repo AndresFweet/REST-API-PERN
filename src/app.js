@@ -8,6 +8,8 @@ import securityRoutes from "./routes/security/auth.routes.js"
 import userRoutes from "./routes/security/users.routes.js"
 //permisos por rol de usuario
 import accessRoutes from "./routes/security/seccion.routes.js"
+//rutas para petciones generales (tablas ref)
+import generaloutes from './routes/config/general.routes.js'
 //rutas para el modulo de empresas
 import companyRoutes from "./routes/config/empresa.routes.js"
 //rutas para el modulo de tiendas
@@ -32,5 +34,6 @@ app.use('/api', userRoutes)
 app.use('/api', accessRoutes)
 app.use('/api', companyRoutes)
 app.use('/api', storeRequest)
+app.use('/api', generaloutes)
 
 export default app
